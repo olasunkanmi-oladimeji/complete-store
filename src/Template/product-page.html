@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+          <a href="{{item.category.get_absolute_url}}">
+          <img src="{{item.image.url}}" class="img-fluid" alt="">
+        </a>
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+
+            <div class="mb-3">
+              <a href="{{item.category.get_absolute_url}}">
+                <span class="badge purple mr-1">{{item.category}}</span>
+              </a>
+              <a href="">
+                <span class="badge blue mr-1">{{item.label_text}}</span>
+              </a>
+              <a href="{{item.brand.get_absolute_url}}">
+                <span class="badge blue mr-1">{{item.brand}}</span>
+              </a>
+              
+            </div>
+
+            <p class="lead">
+              {% if item.discount_price%}
+              <span class="mr-1">
+                <del>&#8358; {{item.price}}</del>
+              </span>
+              <span>&#8358; {{item.price}}</span>
+              {% else %}
+              <span>&#8358; {{item.price}}</span>
+              {% endif %}
+            </p>
+
+            <p class="lead font-weight-bold">Description</p>
+
+            <p>{{item.description}} <br>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolor suscipit libero eos atque quia ipsa
+              sint voluptatibus!
+              Beatae sit assumenda asperiores iure at maxime atque repellendus maiores quia sapiente.</p>
+
+            <div class="d-flex justify-content-left">
+              <a class="btn btn-primary btn-md my-0 p" href="{{item.get_add_to_cart_url}}">Add to cart
+                <i class="fas fa-cart-plus ml-1"></i>
+              </a>
+              <a class="btn btn-danger btn-md my-0 p" href="{{item.get_remove_from_cart_url}}">Remove from cart
+                <i class="fa fa-cart-arrow-down ml-1"></i>
+              </a>
+
+            </div>
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <hr>
+
+      <h4>Related Product</h4>
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+        {% for item in page_obj %}
+
+        {% include 'include/product.html' %}
+
+        {% endfor %}
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+  {% endblock content %}

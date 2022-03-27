@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!--Main layout-->
+
+  <main class="mt-5 pt-5">
+      <div class="">
+      {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+      {% endif %}
+      </div>
+    <div class="container ">
+
+      <!--Grid row-->
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col ">
+
+          <!--Card-->
+          <div class="card">
+            <center> <img  src="{% static 'img/logo.png' %}" height='100px'  alt="i-shop logo" />
+            <h2 class="text-center">Payment Redirect</h2>
+            </center>
+              <form id="paymentForm">
+          <div class="form-group col-12 mx-auto">
+            <label for="email">Name</label>
+            <input type="" id="" required value="{{order.shipping_address.name}}"
+            class="form-control"
+            id="formControlDisabled amount"
+            type="text"
+            placeholder="Disabled input"
+            aria-label="disabled input example"
+            disabled/>
+          </div>
+           <div class="form-group col-12 mx-auto">
+            <label for="email">Email Address</label>
+            <input type="email" id="email-address" required value="{{order.shipping_address.email}}"
+            class="form-control"
+            id="formControlDisabled amount"
+            type="text"
+            placeholder="Disabled input"
+            aria-label="disabled input example"
+            disabled/>
+          </div>
+          <div class="form-group col-12 mx-auto">
+            <label for="amount">Amount</label>
+            <input type="tel" id="amount" required value="{{order.get_total|floatformat:2}}"
+            class="form-control"
+
+            type="text"
+            placeholder="Disabled input"
+            aria-label="disabled input example"
+            disabled />
+          </div>
+
+          <div class="form-submit col-12 mx-auto">
+            <button type="submit" onclick="payWithPaystack()"
+            class="btn btn-primary col-12" data-mdb-ripple-color="dark"> Pay </button>
+          </div>
+</form>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+                  </div>
+                  <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+        <div class="col">
+
+            {% include 'include/order-snippet.html' %}
+      </div>
+      </div>
+
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+<script>
+const paymentForm = document.getElementById('paymentForm');
+paymentForm.addEventListener("submit", payWithPaystack, false);
+function payWithPaystack(e) {
+  e.preventDefault();
+  let handler = PaystackPop.setup({
+    key: '{{pk_public}}', // Replace with your public key
+    email: document.getElementById("email-address").value,
+    amount: document.getElementById("amount").value * 100,
+    ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+    // label: "Optional string that replaces customer email"
+    onClose: function(){
+      alert('Window closed.');
+    },
+    callback: function(response){
+      window.location = "verify/" + response.reference;
+    }
+  });
+  handler.openIframe();
+}
+
+</script>
+
+{% endblock content %}
+

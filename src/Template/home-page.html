@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+  <!--Carousel Wrapper-->
+  <div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
+
+    <!--Indicators-->
+    <ol class="carousel-indicators">
+      {% for banner in banner %}
+      <li data-target="#carousel-example-1z" data-slide-to="{{ forloop.counter0}}" class="{% if forloop.counter == 1 %}active{% endif %}"></li>
+
+      {% endfor %}
+    </ol>
+    <!--/.Indicators-->
+
+    <!--Slides-->
+    <div class="carousel-inner" role="listbox">
+      {% for banner in banner %}
+      <!--First slide-->
+      <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+        <div class="view" 
+        style="background: url('{{banner.img.url}}') no-repeat center center fixed;
+         -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;
+        ">
+
+          <!-- Mask & flexbox options-->
+          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+
+            <!-- Content -->
+            <div class="text-center white-text mx-5 wow fadeIn">
+
+            </div>
+            <!-- Content -->
+
+          </div>
+          <!-- Mask & flexbox options-->
+
+        </div>
+      </div>
+      <!--/First slide-->
+      {% endfor %}
+
+    </div>
+    <!--/.Slides-->
+
+    <!--Controls-->
+    <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+    <!--/.Controls-->
+
+  </div>
+  <!--/.Carousel Wrapper-->
+
+  <!--Main layout-->
+  <main>
+    <div class="container">
+
+      <!--Navbar-->
+      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+
+        <!-- Navbar brand -->
+        <span class="navbar-brand">Categories:</span>
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">All
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            {% for category in categorys %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{category.get_absolute_url}}">{{category.name}}</a>
+            </li>
+            {% endfor %}
+
+          </ul>
+          <!-- Links -->
+
+          <form class="form-inline" method="get" action="{% url 'core:search' %}">
+            <div class="md-form my-0">
+              <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search">
+            </div>
+          </form>
+        </div>
+        <!-- Collapsible content -->
+
+      </nav>
+      <!--/.Navbar-->
+
+      <!--Section: Products v.3-->
+      <section class="text-center mb-4">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          {% for item in page_obj %}
+          {% include 'include/product.html' %}
+          {% endfor %}
+          
+
+          <!--Fourth column-->
+
+          
+
+        </div>
+        <!--Grid row-->
+        <!--Pagination-->
+      <nav class="d-flex justify-content-center wow fadeIn">
+        {% if page_obj %}
+        <ul class="pagination pg-blue">
+
+          <!--Arrow left-->
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          {% endif%}
+
+          {% for i in page_obj.paginator.page_range %}
+           {% if page_obj.number == i %}
+            <li class="page-item active">
+              <a class="page-link" href="#">{{ i }}
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            {% else %}
+          
+              <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+              </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+        {% endif%}
+      </nav>
+      <!--Pagination-->
+      </section >
+      <hr>
+
+      <section class="text-center mb-4">  
+        <h1>category</h1>
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          {% for category in categorys %}
+          <!--Grid column-->
+          <div class="col-lg-3 col-md-6 mb-4">
+
+            <!--Card-->
+            <div class="card">
+
+              <!--Card image-->
+              <div class="view overlay">
+                <img src="{{category.img.url}}" height="250px" class="card-img-top"
+                  alt="">
+                <a href="{{category.get_absolute_url}}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
+
+              <!--Card content-->
+              <div class="card-body text-center">
+                <!--Category & Title-->
+                <a href="" class="grey-text">
+                  <h5>{{category.name}}</h5>
+                </a>
+                
+
+              </div>
+              <!--Card content-->
+
+            </div>
+            <!--Card-->
+
+          </div>
+          <!--Grid column-->
+          {% endfor %}
+
+          
+
+        </div>
+        <!--Grid row-->
+
+      </section>
+      <!--Section: Products v.3-->
+
+      <hr>
+
+      <section class="text-center mb-4">  
+        <h1>Brands</h1>
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          {% for brands in brands %}
+          <!--Grid column-->
+          <div class="col-sm-2 mb-4">
+
+            <!--Card-->
+            <div class=" bg-light" style="width: 10em;">
+
+              <!--Card image-->
+              <div class="view overlay">
+                <img src="{{brands.img.url}}" height="100px" class="card-img-top"
+                  alt="">
+                <a href="">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
+
+              <!--Card content-->
+              <div class="card-body text-center">
+                <!--Category & Title-->
+                <a href="" class="grey-text">
+                  <h5>{{brands.name}}</h5>
+                </a>
+                
+
+              </div>
+              <!--Card content-->
+
+            </div>
+            <!--Card-->
+
+          </div>
+          <!--Grid column-->
+          {% endfor %}
+
+          
+
+        </div>
+        <!--Grid row-->
+
+      </section>
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+
+  {% endblock content %}
+ 

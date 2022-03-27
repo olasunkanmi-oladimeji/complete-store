@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% load i18n %} 
+{% block head_title %}{% trans "Your cart" %}{% endblock %}
+{% block content %}
+
+<!-- start main content -->
+<main class="main-container mt-5 pt-5">
+<!-- shopping cart content -->
+<section class="shopping-cart-area">
+	<!-- Begin cart -->
+	<div class="ld-subpage-content">
+
+		<div class="ld-cart">
+
+			<!-- Begin cart section -->
+			<section class="ld-cart-section ptb-50">
+				
+
+				<div class="container">
+					<h4>Your Cart</h4>
+					{% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show pt-t mt-5" role="alert">
+              {{ message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+		
+
+					<div class="row">
+
+						<div class="col-md-12">
+
+							<!-- Begin table -->
+							<table class="table table-bordered bg-white">
+								<thead>
+								<tr class="bg-light">
+									<th class="table-title">Product Name</th>
+									<th class="table-title">Unit Price</th>
+									<th class="table-title">Quantity</th>
+									<th class="table-title">SubTotal</th>
+									<th>
+
+										<span class="close-button disabled"></span></th>
+								</tr>
+								</thead>
+
+
+								<tbody>
+									{% for order_item in object.items.all %}
+
+								<tr>
+									<td class="product-price-col">
+										<span class="d-flex">
+											<a href="{{order_item.item.get_absolute_url}}">
+												<img height="200px" width="150px" src="{{order_item.item.image.url}}" alt="product"></a>
+
+											<h2 class="product-name"><a href="#">{{order_item.item.title}}</a></h2>
+										</span>
+										
+
+										
+									</td>
+									
+									<td class="product-price-col">
+										<span class="product-price-special">&#8358; {{ order_item.item.price }}</span>
+									</td>
+									<td>
+										<div class="custom-quantity-input">
+											<a href="{% url 'core:remove_item_cart' order_item.item.slug %}"><i class="fa fa-minus mr-2"></i></a>
+												{{ order_item.quantity }}
+												<a href="{% url 'core:add_to_cart' order_item.item.slug %}"><i class="fa fa-plus ml-2"></i></a>
+										</div>
+									</td>
+									<td class="product-total-col">
+										<span class="product-price-special">{% if order_item.item.discount_price %}
+														&#8358; {{ order_item.get_total_discount_item_price }}
+															<span class="badge badge-primary">Saving &#8358; {{ order_item.get_amount_saved }}</span>
+														{% else %}
+														&#8358; {{ order_item.get_total_item_price }}
+														{% endif %}</span>
+									</td>
+									<td class="d-flexx">
+										<a href="{% url 'core:remove_item_cart' order_item.item.slug %}" class="ml-2" ><i class="fa fa-trash"></i></a>
+										<a href="{% url 'core:add_wishlist' order_item.item.id %}" class=" mr-3 " data-product="{{item.id}}"><i class="fa fa-heart"></i></a>
+									</td>
+								</tr>
+								<!-- End tr -->
+																{% empty %}
+										<tr>
+							
+											<td colspan='5'>Your cart is empty</td>
+											
+										</tr>
+
+								{% endfor%}
+								</tbody>
+							</table>
+							<!-- End table -->
+
+							<div class="mt-30"></div>
+
+							<div class="row">
+
+								<div class="col-md-8">
+
+									
+
+
+
+									
+								</div>
+
+								<div class="mt-30 visible-sm visible-xs clearfix"></div>
+
+								<div class="col-md-4">
+
+									<table class="table total-table">
+
+										<tbody>
+												{% if  object.items.all %}
+
+											{% if object.coupon %}
+												<tr>
+													
+													<td class="total-table-title" >coupon</td>
+													<td><b>-NGN {{ object.coupon.amount }}</b></td>
+												</tr>
+												{% endif %}
+										<tr>
+											
+											
+										</tr>
+									
+									
+										</tbody>
+
+										<tfoot>
+										<tr>
+											<td>Total:</td>
+											<td>&#8358; {{ object.get_total }}</td>
+										</tr>
+										</tfoot>
+										{% endif %}
+									</table>
+									<!-- End table -->
+
+									<div class="mt-30"></div>
+
+									<div class=" d-flex">
+										<a href="/" class="btn btn-primary btn-md   mr-3">Continue Shopping</a>
+										<a href="{% url 'core:checkout' %}" class="btn btn-md btn-warning  ">Checkout</a>
+									</div>
+									
+
+								</div>
+								<!-- /.col-md-4 -->
+							</div>
+							<!-- /.row -->
+						</div>
+					</div>
+				</div>
+
+			</section>
+			<!-- /.ld-cart-section -->
+
+		</div>
+		<!-- /.ld-cart -->
+	</div>
+	<!-- /.ld-subpage-content -->
+	<!-- End Cart -->
+</section>
+<!-- end shopping cart content -->
+
+</main>
+{% endblock %}

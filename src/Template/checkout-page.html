@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load i18n %} 
+{% block head_title %}{{category}}{% endblock %}
+{% block content %}
+
+
+
+  <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container wow fadeIn">
+
+      <!-- Heading -->
+      <h2 class="my-5 h2 text-center">Checkout form</h2>
+      {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show pt-t mt-5" role="alert">
+              {{ message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+		
+      <!--Grid row-->
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col-md-8 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card content-->
+            <form class="card-body" method="post">
+              {% csrf_token %}
+              
+              <!--Grid row-->
+              <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-2">
+
+                  <!--firstName-->
+                  <div class="md-form ">
+                    <input type="text" id="firstName id_name" name="name"  class="form-control">
+                    <label for="firstName" class="">Name</label>
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-2">
+
+                  <!--lastName-->
+                  <div class="md-form">
+                    <input name="phone_no" id="id_phone_no" type="tel" class="form-control">
+                    <label for="lastName" class="">Phone No</label>
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+              </div>
+              <!--Grid row-->
+
+              
+
+              <!--email-->
+              <div class="md-form mb-5">
+                <input type="email" name="email" id="id_email" class="form-control" placeholder="youremail@example.com">
+                <label for="email" class="">Email </label>
+              </div>
+
+              <!--address-->
+              <div class="md-form mb-5">
+                <input type="text" name="address" id="id_address" class="form-control" placeholder="1234 Main St">
+                <label for="address" class="">Address</label>
+              </div>
+
+
+              <hr>
+
+              
+
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="set_default_shipping" id="id_set_default_shipping">
+                <label class="custom-control-label" for="id_set_default_shipping" style="color:black">set default address: </label>
+              </div>
+      
+              <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
+                  
+
+                  {% if default_shipping_address %}
+                  <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
+                  
+
+                <label style="color:black" class="custom-control-label" for="use_default_shipping">Use default shipping address: {{ default_shipping_address.address|truncatewords:10 }}</label>
+                {% endif %}
+                
+
+              </div>
+              <hr>
+
+              <div class="d-block my-3">
+                {% for value, name in form.fields.payment_option.choices %}
+                        <div class="custom-control custom-radio">
+                  
+                          <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio" class="custom-control-input" required>
+                          <label style="color:black" class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                  
+                        </div>
+                {% endfor %}
+              </div>
+              
+              <hr class="mb-4">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+
+            </form>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-4 mb-4">
+
+          
+
+          {% include 'include/order-snippet.html' %}
+
+          
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+{% endblock content%}

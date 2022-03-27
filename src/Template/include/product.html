@@ -1,0 +1,53 @@
+
+
+				<!-- Product Item #2 -->
+				<div class=" col-md-3 mb-4  ">
+                    <div class="card" >
+					<a href="{{item.get_absolute_url}}">
+						<div class="">
+							<img class="card-img-top"  src="{{item.image.url}}" height="250px"  alt="product">	
+						</div>
+                    </a>
+					<!-- .product-img end -->
+					<div class="product-bio card-body text-center">
+						<a href="{{item.category.get_absolute_url}}">{{item.category}}</a>
+						<h4>
+							<a href="{{item.get_absolute_url}}">{{item.title}}
+
+
+								{% if item.label_text %}
+							<span class="badge badge-pill {{ item.get_label_display }}-color ">
+								{{item.label_text}} 
+							</span>
+							{% endif %}
+							</a>
+						</h4>
+						<h5 class="">
+							<a class="mr-2" href="{{item.get_add_to_cart_url}}">
+							<i class="fa-solid fa fa-cart-plus"></i></a>
+
+                            {% if item.discount_price %}
+								{{item.get_discount}}% 
+								<span class="blue-text">  &#8358;{{item.discount_price}}  </span>
+                             
+                            {% else%}
+                              <span class="blue-text">  &#8358;{{item.price}}  </span>
+                            {% endif%}
+							  {% if user.is_authenticated %}
+							  
+                        
+                            <a href="{% url 'core:add_wishlist' item.id %}" class=" ml-2" data-product="{{item.id}}">
+							<i class="fa-solid fa-heart fa"></i></a>
+                                {% else %}
+                                <button class="btn btn-sm btn-danger disabled"><i class="fa fa-heart"></i></button>
+                            {% endif %}
+            
+                        </h4>
+
+					</div>
+					<!-- .product-bio end -->
+                </div>
+				</div>
+				<!-- .product-item end -->
+          
+				

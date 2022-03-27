@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% load i18n %} 
+{% block head_title %}{% trans "wishlist" %}{% endblock %}
+{% block content %}
+
+<!-- start main content -->
+<main class="main-container mt-5 pt-5">
+<!-- compare content -->
+	<!-- Main content starts -->
+
+	<div class="main-block">
+
+
+
+		<div class="container">
+			<h4>Your Wishlist</h4>
+			<!-- Actual content -->
+			<div class="ecommerce pt-40">
+				{% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message.tags }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+				<div class="row">
+					<div class="col-md-12 col-sm-12">
+						<!-- Shopping items content -->
+						<div class="shopping-content">
+							<!-- Block Title -->
+
+							<!-- Shopping Edit Profile -->
+							<div class="shopping-wishlist">
+								<!-- Recent Purchase Table -->
+								<div class=" table-responsive">
+									<table class="table table-bordered bg-white">
+										<!-- Table Header -->
+										<thead>
+										<tr>
+											<th>#</th>
+											<th>Image</th>
+											<th>Name</th>
+											
+											<th>Price</th>
+											<th>Action</th>
+										</tr>
+										</thead>
+										<tbody>
+											{% for wl in wlist %}
+										<tr>
+											<td>{{ forloop.counter }}</td>
+											<!-- Product image -->
+											<td>
+												<a href="#">
+													<img src="{{wl.product.image.url}}" height="100px" width="100px" alt="" />
+												</a>
+											</td>
+											<td><a href="#">{{wl.product.title}}</a></td>
+											
+											<td>{% if wl.product.discount_price%}
+					                            <del> &#8358;{{wl.product.price}}  </del>
+					                             <span class="blue-text">  &#8358;{{wl.product.discount_price}}  </span>
+					                             
+					                              
+					                              {% else%}
+					                              <span class="blue-text">  &#8358;{{wl.product.price}}  </span>
+					                              {% endif%}
+					                          </td>
+											<td>
+												<div class="btn-group btn-group-xs">
+													<a href="{% url 'core:add_to_cart' wl.product.slug %}"><i class="fa fa-shopping-cart mr-4"></i></a>
+
+												
+													<a href="{% url 'core:delete_wishlist' wl.product.id %}" class=""><i class="fa fa-trash"></i> </a>
+												</div>
+											</td>
+										</tr>
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+
+
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Main content ends -->
+<!-- end compare content -->
+
+<!-- service area -->
+	<section class="block gray no-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="content-box no-margin go-simple">
+						<div class="mini-service-sec">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="mini-service">
+										<i  class="fa fa-paper-plane"></i>
+										<div class="mini-service-info">
+											<h3>Worldwide Delivery</h3>
+											<p>unc tincidunt, on cursusau gmetus, lorem Hore</p>
+										</div>
+									</div><!-- Mini Service -->
+								</div>
+								<div class="col-md-3">
+									<div class="mini-service">
+										<i  class="fa  fa-newspaper-o"></i>
+										<div class="mini-service-info">
+											<h3>Worldwide Delivery</h3>
+											<p>unc tincidunt, on cursusa ugmetus, lorem Hore</p>
+										</div>
+									</div><!-- Mini Service -->
+								</div>
+								<div class="col-md-3">
+									<div class="mini-service">
+										<i  class="fa fa-medkit"></i>
+										<div class="mini-service-info">
+											<h3>Friendly Stuff</h3>
+											<p>unc tincidunt, on cursusau gmetus, lorem Hore</p>
+										</div>
+									</div><!-- Mini Service -->
+								</div>
+								<div class="col-md-3">
+									<div class="mini-service">
+										<i  class="fa  fa-newspaper-o"></i>
+										<div class="mini-service-info">
+											<h3>24/h Support</h3>
+											<p>unc tincidunt, on cursusa ugmetus, lorem Hore</p>
+										</div>
+									</div><!-- Mini Service -->
+								</div>
+							</div>
+						</div><!-- Mini Service Sec -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="clearfix"></div>
+<!-- end service area -->
+</main>
+<!-- end main content -->
+{% endblock %}
